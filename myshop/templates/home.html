@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Home page</title>
+    </head>
+    <style>
+        #left{
+            float: left;
+            padding-left: 150px;
+        }
+        #right{
+            float: right;
+            padding-right: 150px;
+        }
+        input[type=text], select {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-top: 20px;
+                }
+        
+                th, td {
+                    border: 1px solid #ddd;
+                    padding: 10px; /* Adjust padding as needed */
+                    text-align: left;
+                }
+        
+                th {
+                    background-color: #4CAF50; /* Green background color */
+                    color: white; /* White text color */
+                    font-weight: bold; /* Bold text */
+                }
+    </style>
+    <body>
+        <h1 style="background-color: yellowgreen; padding-left: 600px;" >Cloth Appps</h1>
+        <div id="left">
+            <button style="background-color: red; width: 200px; height: 30px; color: white;" onclick="addoption()">ADD</button><br><br>
+        </div>
+        <form id="myForm" action="{% url 'add_item' %}" method="post" onsubmit="return validateForm()">
+            {% csrf_token %}
+                <div style="display: none;" id="addop">
+                    <select name="product">
+                        <option>Shirt</option>
+                        <option>T-shirt</option>
+                        <option>Jeans</option>
+                        <!-- <option></option>
+                        <option></option>
+                        <option></option>
+                        <option></option>
+                        <option></option> -->
+                    </select><br>
+                    <select name="size">
+                        <option>28</option>
+                        <option>30</option>
+                        <option>32</option>
+                        <option>34</option>
+                        <option>36</option>
+                        <option>38</option>
+                        <option>40</option>
+                        <option>L</option>
+                        <option>XL</option>
+                        <option>XXL</option>
+                    </select><br>
+                    <input type="text" name="count" id="count1" placeholder="Please enter count of Item"><br>
+                    <p id="message1" style="color: red; display: none;">Enter valide count</p>
+                    <button onclick="saveinfo1()">Save</button>
+                </div>
+        </form>    
+        <div id="right">
+            <button style="background-color: red; width: 200px; height: 30px; color: white;" onclick="update()">Sale</button>
+        </div>
+        <form id="myForm" action="{% url 'update_item' %}" method="post" onsubmit="return validateForm()">
+            {% csrf_token %}
+            <div style="display: none;" id="update">
+                <select name="product1">
+                    <option>Shirt</option>
+                    <option>T-shirt</option>
+                    <option>Jeans</option>
+                    <!-- <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option> -->
+                </select><br>
+                <select name="size1">
+                    <option>28</option>
+                    <option>30</option>
+                    <option>32</option>
+                    <option>34</option>
+                    <option>36</option>
+                    <option>38</option>
+                    <option>40</option>
+                    <option>L</option>
+                    <option>XL</option>
+                    <option>XXL</option>
+                </select><br>
+                <input type="text" name="count1" placeholder="Hom many item sale" id="count">
+                <p id="message" style="color: red; display: none;">Enter valide count</p>
+                <button type="submit">Save</button>
+            </div>
+        </form>
+        <br><br>
+
+        
+        <div id="table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Items</th>
+                        <th>Size</th>
+                        <th>Counts</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %} 
+                        <tr>
+                            <td>{{ item.item }}</td>
+                            <td>{{ item.size }}</td>
+                            <td>{{ item.count }}</td>
+                            
+                        </tr> 
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        </div>
+        
+    </body>
+    <script>
+        function addoption()
+        {
+            var a= document.getElementById('addop');
+            a.style.display='block';
+        }
+        var countInput = document.getElementById('count');
+        var message = document.getElementById('message');
+        var countInput1 = document.getElementById('count1');
+        var message1 = document.getElementById('message1');
+        countInput.addEventListener('input', function() {
+            validateCount();
+        });
+        countInput1.addEventListener('input', function() {
+            validateCount1();
+        });
+        function validateCount() {
+            var count = countInput.value;
+
+            if (count < 0 || isNaN(count)) {
+                // Show error message
+                message.style.display = 'block';
+            } else {
+                // Hide error message
+                message.style.display = 'none';
+            }
+        }
+        function validateCount1() {
+            var count = countInput1.value;
+
+            if (count < 0 || isNaN(count)) {
+                // Show error message
+                message1.style.display = 'block';
+            } else {
+                // Hide error message
+                message1.style.display = 'none';
+            }
+        }
+        function update()
+        {
+            var a= document.getElementById('update');
+            a.style.display='block';
+        }
+    </script>
+</html>
